@@ -7,15 +7,11 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
 const PORT = process.env.port || 3001;
-
 const app = express();
 
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// need api routes
-//app.use("/api", api);
 
 app.use(express.static("public"));
 
@@ -55,21 +51,21 @@ app.post("/api/notes", (req, res) => {
       id: uuidv4(),
     };
     // from mini project
-    fs.readFile(file, "utf8", (err, data) => {
+    fs.readFile("./db/db.json", "utf8", (err, data) => {
       if (err) {
         console.error(err);
       } else {
-        const parsedData = JSON.parse(data);
+        var parsedData = JSON.parse(data);
         parsedData.push(postNote);
-        writeToFile("./db/db.json", parsedData);
+        fs.writeFile("./db/db.json", JSON.stringify(parsedData), (err) =>
+          err ? console.error(err) : console.info(`\nData written to db.json`)
+        );
       }
     });
   }
 });
 
 // BONUS TODO: DELETE /api/notes/:id should receive query param that has id, read all notes from db.json file and remove the note with the id property and then rewrite to db.json
-
-app.delete;
 
 // shows that the app is listening at the port
 app.listen(PORT, () =>
