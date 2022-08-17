@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 // uuid npm require
 const { v4: uuidv4 } = require("uuid");
-// utils
+// utils from mini project
 const {
   readFromFile,
   writeToFile,
@@ -13,13 +13,13 @@ const {
 // app.use("./routers/notes", notesRouter);
 
 // TODO: GET /api/notes should read the db.json and return saved notes as JSON
-router.get("/api/notes", (req, res) => {
+router.get("/", (req, res) => {
   readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
 });
 
 // TODO: GET /api/notes should receive a new note to save on request body, add to db.json, needs unique id (UUID) npm packages might be able to do this
 // post not get -- check activity 18
-router.post("/api/notes", (req, res) => {
+router.post("/", (req, res) => {
   // destructure req body
   const { title, text } = req.body;
 
@@ -45,7 +45,7 @@ router.post("/api/notes", (req, res) => {
 });
 
 // get specific notes - from mini project
-router.get("api/notes/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const notesId = req.params.id;
   readFromFile("./db/db.json")
     .then((data) => JSON.parse(data))
@@ -58,7 +58,7 @@ router.get("api/notes/:id", (req, res) => {
 });
 
 // BONUS TODO: DELETE /api/notes/:id should receive query param that has id, read all notes from db.json file and remove the note with the id property and then rewrite to db.json - check mini project
-router.delete("api/notes/:id", (req, res) => {
+router.delete(":id", (req, res) => {
   const notesId = req.params.id;
   readFromFile("./db/db.json")
     .then((data) => JSON.parse(data))
