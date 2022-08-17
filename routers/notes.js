@@ -3,10 +3,17 @@ const express = require("express");
 const router = express.Router();
 // uuid npm require
 const { v4: uuidv4 } = require("uuid");
-const { readFromFile, writeToFile, readAndAppend } = require("./helpers/utils");
+// utils
+const {
+  readFromFile,
+  writeToFile,
+  readAndAppend,
+} = require("../helpers/utils");
+
+// app.use("./routers/notes", notesRouter);
 
 // TODO: GET /api/notes should read the db.json and return saved notes as JSON
-router.get("/", (req, res) => {
+router.get("/api/notes", (req, res) => {
   readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
 });
 
@@ -38,7 +45,7 @@ router.post("/api/notes", (req, res) => {
 });
 
 // get specific notes - from mini project
-router.get("/:id", (req, res) => {
+router.get("api/notes/:id", (req, res) => {
   const notesId = req.params.id;
   readFromFile("./db/db.json")
     .then((data) => JSON.parse(data))
@@ -51,7 +58,7 @@ router.get("/:id", (req, res) => {
 });
 
 // BONUS TODO: DELETE /api/notes/:id should receive query param that has id, read all notes from db.json file and remove the note with the id property and then rewrite to db.json - check mini project
-router.delete("/id", (req, res) => {
+router.delete("api/notes/:id", (req, res) => {
   const notesId = req.params.id;
   readFromFile("./db/db.json")
     .then((data) => JSON.parse(data))
